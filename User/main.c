@@ -1,10 +1,10 @@
 #include "stm32f10x.h"
 #include "Delay.h"
 #include "led.h"
-#include "Serial.h"
 #include "DHT11.h"
 #include "usart1.h"
 #include "usart2.h"
+#include "LDR.h"
 #include "usart3.h"
 #include "esp32_c3.h"
 #include "LED.h"
@@ -25,6 +25,7 @@ u8 humidity_t = 70;
 u8 temp_threshold = 30;//温度默认阈值
 int soil_threshold = 30;//土壤湿度默认阈值
 uint16_t co2_threshold = 380;//CO2浓度默认阈值
+u16 light; //光照强度
 extern u8 USART3_RX_FLAG;//wifi接收标志位
 char sendBuffer[50];
 void send_normal_data_to_app(void);
@@ -39,7 +40,6 @@ unsigned char setn=0;//记录设置键按下的次数
 unsigned char temperature=0;
 unsigned char humidity=0;
 unsigned char setTempValue=35;        //温度设置值
-unsigned int  light=0;
 unsigned int  setSoilMoisture=10;
 unsigned int  soilMoisture;           //土壤湿度
 unsigned char setLightValue=20;       //光照设置值
@@ -53,7 +53,7 @@ void InitDisplay(void)   //初始化显示
 	  for(i=0;i<4;i++)OLED_ShowCN(i*16,0,i+0,0);//显示中文：环境温度：
 	  for(i=0;i<4;i++)OLED_ShowCN(i*16,2,i+4,0);//显示中文：环境湿度：
 	  for(i=0;i<4;i++)OLED_ShowCN(i*16,4,i+8,0);//显示中文：土壤湿度：
-		for(i=0;i<4;i++)OLED_ShowCN(i*16,6,i+12,0);//显示中文：二氧化碳：
+		for(i=0;i<4;i++)OLED_ShowCN(i*16,6,i+21,0);//显示中文：光照强度：
 	  OLED_ShowChar(64,0,':',2,0);
 	  OLED_ShowChar(64,2,':',2,0);
     OLED_ShowChar(64,4,':',2,0);
@@ -105,6 +105,22 @@ void displayCO2(void)    //显示二氧化碳浓度
     OLED_ShowChar(86,6,(co2%100)/10+'0',2,0);  //十位
     OLED_ShowChar(94,6,co2%10+'0',2,0);       //个位
     OLED_ShowStr(102,6,"ppm",2,0);          //单位
+}
+
+void displayLight(void) {
+    if (light > 999) light = 999;  // 限制最大值为999
+    
+    // 显示百位
+    OLED_ShowChar(78, 6, (light % 1000) / 100 + '0', 2, 0);  // 百位
+    
+    // 显示十位
+    OLED_ShowChar(86, 6, (light % 100) / 10 + '0', 2, 0);    // 十位
+    
+    // 显示个位
+    OLED_ShowChar(94, 6, light % 10 + '0', 2, 0);            // 个位
+    
+    // 显示单位 "lux"
+    OLED_ShowStr(102, 6, "Lux", 2, 0);                       // 单位
 }
 // 解析接收到的命令
 void ParseCommand(char* cmd) {
@@ -187,7 +203,7 @@ void Display_Task(void)//3msOLED刷新间隔
 			
 			displayDHT11TempAndHumi();
 			displaySoilMoisture();
-			displayCO2();
+			displayLight();
 	}
 }
 void Sensor_Task(void)//200ms数据采集间隔
@@ -197,6 +213,7 @@ void Sensor_Task(void)//200ms数据采集间隔
 		Timer2_Sensor_Counter =1;
 		DHT11_Read_Data(&temperature,&humidity);//采集温湿度
 		CO2GetData(&co2);//采集CO2浓度
+		light = LDR_LuxData();
 		soilMoisture = 100-(Get_Adc_Average(ADC_Channel_8,10)*99/4096);//采集土壤湿度
 	  if(soilMoisture>99)soilMoisture=99;  //溢出限制
 	}
@@ -233,12 +250,13 @@ int main(void)
 	LED_Init();
 	I2C_Configuration();     //IIC初始化
 	OLED_Init();             //OLED液晶初始化
+	LDR_Init();
 	Adc_Init();
 	OLED_CLS();              //清屏
 	OLED_ShowStr(0, 3, "     ...", 2,0);//显示加载中
 	for(i=0;i<5;i++)OLED_ShowCN(i*16,3,i+16,0);//显示中文：网络连接中
 	usart1_init(115200);
-	usart2_init(9600);
+	//usart2_init(9600);
 	usart3_init(115200);
 	tim1_init();
 	TIM2_Init();
@@ -257,7 +275,6 @@ int main(void)
 	LED_Hint(100);
 	while (1)
 	{
-			
 			Sensor_Task();//传感器数据采集任务
 			Display_Task();//OLED显示任务
 			WiFi_Rx_Task();//控制命令接收
