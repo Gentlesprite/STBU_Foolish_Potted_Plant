@@ -5,10 +5,11 @@ extern u8 temperature;
 extern u8 humidity_t;
 extern int soilMoisture;
 extern u8 humidity;
-extern uint16_t co2;
+extern u16 light;
+
 extern u8 temp_threshold;
 extern int soil_threshold;
-extern uint16_t co2_threshold;
+extern uint16_t light_threshold;
 void tim1_init(void) {
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
@@ -41,21 +42,10 @@ void tim1_init(void) {
 
 extern uint8_t FAN_Ctrl;//排气扇控制标志位
 extern uint8_t WATER_Ctrl;//排气扇控制标志位
+extern uint8_t LED_Ctrl;//排气扇控制标志位
 void TIM1_UP_IRQHandler(void) {
     if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET) {
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-        
-        // 环境检查
-//        char sendBuffer[50];
-//			if(humidity > humidity_t)//开启
-//			{
-//				LED2_ON();
-//			}
-//			else
-//			{
-//				
-//				LED2_OFF();
-//			}	
 			if(temperature > temp_threshold) // 高温蜂鸣器报警
 				{
 	//            sprintf(sendBuffer, "温度超过阈值%d", temp_threshold);
@@ -79,18 +69,14 @@ void TIM1_UP_IRQHandler(void) {
 					RELAY_OFF();
 				}
 				
-				
-        if(co2 > co2_threshold)//CO2浓度过高排气扇启动
+				if(light < light_threshold)
 				{
-            //sprintf(sendBuffer, "二氧化碳超过阈值%d", co2_threshold);
-            //esp_32c3_send_data((u8 *)sendBuffer, 50);
-            FAN_ON();                                                  
+            LEDM_ON();                                                  
         }
-        else if(FAN_Ctrl ==0)
+        else if(LED_Ctrl ==0)
 				{
-						FAN_OFF();
+						LEDM_OFF();
 				}
-				
     }
 }
 

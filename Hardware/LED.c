@@ -77,3 +77,9 @@ void LED_Hint(uint16_t timer)//LEDÃ· æµ∆
 	LED_Hint_Counter =timer;
 	
 }
+void LEDM_ON(){
+	GPIO_SetBits(GPIOB,GPIO_Pin_1);
+}
+void LEDM_OFF(){
+GPIO_ResetBits(GPIOB,GPIO_Pin_1);
+}
