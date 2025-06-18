@@ -2,14 +2,15 @@
 #include "timer1.h"
 #include "led.h"
 extern u8 temperature;
-extern u8 humidity_t;
-extern int soilMoisture;
 extern u8 humidity;
+extern int soilMoisture;
 extern u16 light;
 
 extern u8 temp_threshold;
+extern u8 humidity_threshold;
 extern int soil_threshold;
 extern uint16_t light_threshold;
+
 void tim1_init(void) {
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
@@ -41,42 +42,24 @@ void tim1_init(void) {
 }
 
 extern uint8_t FAN_Ctrl;//排气扇控制标志位
-extern uint8_t WATER_Ctrl;//排气扇控制标志位
+extern uint8_t MOTOR_Ctrl;//窗帘控制标志位
 extern uint8_t LED_Ctrl;//排气扇控制标志位
+extern uint8_t BEEP_Ctrl;//排气扇控制标志位
 void TIM1_UP_IRQHandler(void) {
     if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET) {
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-			if(temperature > temp_threshold) // 高温蜂鸣器报警
-				{
-	//            sprintf(sendBuffer, "温度超过阈值%d", temp_threshold);
-	//            esp_32c3_send_data((u8 *)sendBuffer, 50);
-					BUZZER_ON(); 
-				}
-			else 
-				{
-					BUZZER_OFF();
-				}
-				
-				
-        if(soilMoisture > soil_threshold)//缺水水泵启动
-				{
-            //sprintf(sendBuffer, "土壤湿度超过阈值%d", soil_threshold);
-            //esp_32c3_send_data((u8 *)sendBuffer, 50);
-					RELAY_ON();
-        }
-				else if(WATER_Ctrl == 0)
-				{
-					RELAY_OFF();
-				}
-				
-				if(light < light_threshold)
-				{
-            LEDM_ON();                                                  
-        }
-        else if(LED_Ctrl ==0)
-				{
-						LEDM_OFF();
-				}
+				if(temperature > temp_threshold)FAN_ON();
+				else if(FAN_Ctrl == 0)FAN_OFF();
+			
+				if(humidity > humidity_threshold)RELAY_ON();
+				else if(MOTOR_Ctrl == 0)RELAY_OFF();
+
+				if(light < light_threshold)LEDM_ON(); 
+				else if(LED_Ctrl == 0)LEDM_OFF();
+
+				if(soilMoisture > soil_threshold)BUZZER_ON();
+				else if(BEEP_Ctrl == 0)BUZZER_OFF();
+			
     }
 }
 

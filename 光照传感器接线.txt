@@ -1,3 +1,0 @@
-PC1 - AO
-VCC 3.3
-GND GND

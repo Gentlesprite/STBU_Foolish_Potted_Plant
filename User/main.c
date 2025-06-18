@@ -18,20 +18,22 @@
 #include "led_module.h"
 //#include "timer3.h"
 volatile uint8_t Timer2_OLEDRefresh_Counter =0;//定时器2计时变量 3ms
-volatile uint8_t Timer2_Sensor_Counter =0;//传感器数据采集计时变量 200ms
+volatile uint8_t Timer2_Sensor_Counter = 0;//传感器数据采集计时变量 200ms
 volatile uint8_t FAN_Ctrl =0;//风扇控制标志位
-volatile uint8_t WATER_Ctrl =0;//水泵控制标志位
+volatile uint8_t MOTOR_Ctrl =0;//窗帘控制标志位
+volatile uint8_t BEEP_Ctrl =0;//蜂鸣器控制标志位
 volatile uint8_t Wifi_Rx_Counter =0;//数据接收轮询任务
 volatile uint8_t LED_Ctrl =0;//数据接收轮询任务
+
 //设定的默认报警阈值
-u8 humidity_t = 70;
+u8 humidity_threshold = 70;
 u8 temp_threshold = 30;//温度默认阈值
 int soil_threshold = 30;//土壤湿度默认阈值
 uint16_t light_threshold = 100; //灯光开启默认阈值
 u16 light; //光照强度
 //u16 led0pwmval=40; led pwm时开启
 extern u8 USART3_RX_FLAG;//wifi接收标志位
-char sendBuffer[50];
+char sendBuffer[512];
 void send_normal_data_to_app(void);
 void env_check(u8 temp,int soil,uint16_t co2);
 typedef unsigned char u8;
@@ -51,6 +53,16 @@ unsigned char setLightValue=20;       //光照设置值
 bool shuaxin  = 0;
 bool shanshuo = 0;
 bool sendFlag = 1;
+
+const char* cmd = "\t\r\n↓↓↓支持的命令↓↓↓\r\n"
+                  "[temp value] - 设置温度的报警阈值。\r\n"
+                  "[hum value] - 设置湿度的报警阈值。\r\n"
+                  "[soil value] - 设置土壤湿度的报警阈值。\r\n"
+                  "[light value] - 设置灯光开启阈值。\r\n"
+                  "[data] - 获取当前环境的信息。\r\n"
+                  "[FAN ON/OFF] - 排气扇启停。\r\n"
+                  "[MOTOR ON/OFF] - 窗帘启停。";
+
 void InitDisplay(void)   //初始化显示
 {
 	  unsigned char i=0;
@@ -63,7 +75,7 @@ void InitDisplay(void)   //初始化显示
     OLED_ShowChar(64,4,':',2,0);
 		OLED_ShowChar(64,6,':',2,0);
 		Delay_ms(1000);
-		sprintf(sendBuffer,"\t\r\n↓↓↓支持的命令↓↓↓\r\n[temp value] - 设置温度的报警阈值。\r\n[soil value] - 设置土壤湿度的报警阈值。\r\n[light value] - 设置灯光开启阈值。\r\n[data] - 获取当前环境的信息。\r\n[FAN ON/OFF] - 排气扇启停。\r\n[WATER ON/OFF] - 水泵启停。");
+		sprintf(sendBuffer,cmd);
 		esp_32c3_send_data((u8 *)sendBuffer, 100);
 }
 void displayDHT11TempAndHumi(void)  //显示环境温湿度
@@ -134,8 +146,8 @@ void ParseCommand(char* cmd) {
     // 获取第一个token（命令类型）
     token = strtok_r(rest, " ", &rest);
     
-    if (token == NULL) return;
-    
+    if (token == NULL)return;
+
     if (strcmp(token, "temp") == 0) {
         // 温度阈值设置
         token = strtok_r(rest, " ", &rest);
@@ -145,6 +157,16 @@ void ParseCommand(char* cmd) {
 						esp_32c3_send_data((u8 *)sendBuffer, 50);
         }
     }
+		else if (strcmp(token, "hum") == 0) {
+        // 温度阈值设置
+        token = strtok_r(rest, " ", &rest);
+        if (token != NULL) {
+            humidity_threshold = atoi(token);
+						sprintf(sendBuffer, "设置湿度阈值为:%s", token);
+						esp_32c3_send_data((u8 *)sendBuffer, 50);
+        }
+    }
+		
     else if (strcmp(token, "soil") == 0) {
         // 土壤湿度阈值设置
         token = strtok_r(rest, " ", &rest);
@@ -154,6 +176,7 @@ void ParseCommand(char* cmd) {
 						esp_32c3_send_data((u8 *)sendBuffer, 50);
         }
     }
+		
     else if (strcmp(token, "light") == 0) {
         // 灯光阈值设置
         token = strtok_r(rest, " ", &rest);
@@ -163,35 +186,40 @@ void ParseCommand(char* cmd) {
 						esp_32c3_send_data((u8 *)sendBuffer, 50);
         }
     }
+		
 		else if (strcmp(token, "data") == 0){
-			
 			sprintf(sendBuffer, "温度:%d℃ 湿度:%d%%RH 土壤湿度:%d%%RH 光照强度:%dLux", temperature, humidity, soilMoisture,light);
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
+		
 		else if (strcmp(token, "FANON") == 0){
 			FAN_ON();
 			FAN_Ctrl =1;
 			sprintf(sendBuffer, "排气扇已开启");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
+		
 		else if (strcmp(token, "FANOFF") == 0){
 			FAN_OFF();
 			FAN_Ctrl =0;
 			sprintf(sendBuffer, "排气扇已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
-		else if (strcmp(token, "WATERON") == 0){
+
+		else if (strcmp(token, "MOTORON") == 0){
 			RELAY_ON();
-			WATER_Ctrl =1;
-			sprintf(sendBuffer, "水泵已开启");
+			MOTOR_Ctrl =1;
+			sprintf(sendBuffer, "窗帘已开启");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
-		else if (strcmp(token, "WATEROFF") == 0){
+		
+		else if (strcmp(token, "MOTOROFF") == 0){
 			RELAY_OFF();
-			WATER_Ctrl =0;
-			sprintf(sendBuffer, "水泵已关闭");
+			MOTOR_Ctrl =0;
+			sprintf(sendBuffer, "窗帘已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
+		
 		else if (strcmp(token, "LEDON") == 0){
 			LEDM_ON();
 			LED_Ctrl =1;
@@ -204,8 +232,20 @@ void ParseCommand(char* cmd) {
 			sprintf(sendBuffer, "灯光已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
+		else if (strcmp(token, "BEEPON") == 0){
+			BUZZER_ON();
+			BEEP_Ctrl =1;
+			sprintf(sendBuffer, "报警已开启");
+			esp_32c3_send_data((u8 *)sendBuffer, 50);
+		}
+		else if (strcmp(token, "BEEPOFF") == 0){
+			BUZZER_OFF();
+			BEEP_Ctrl =0;
+			sprintf(sendBuffer, "报警已关闭");
+			esp_32c3_send_data((u8 *)sendBuffer, 50);
+		}
     else {
-			sprintf(sendBuffer,"\t\r\n↓↓↓支持的命令↓↓↓\r\n[temp value] - 设置温度的报警阈值。\r\n[soil value] - 设置土壤湿度的报警阈值。\r\n[co2 value] - 设置二氧化碳的报警阈值。\r\n[data] - 获取当前环境的信息。\r\n[FAN ON/OFF] - 排气扇启停。\r\n[WATER ON/OFF] - 水泵启停。");
+			sprintf(sendBuffer,cmd);
 			esp_32c3_send_data((u8 *)sendBuffer, 100);
 			
     }
@@ -269,7 +309,7 @@ int main(void)
 	LDR_Init();
 	Adc_Init();
 	OLED_CLS();              //清屏
-	OLED_ShowStr(0, 3, "     ...", 2,0);//显示加载中
+	OLED_ShowStr(0, 3, "          ...", 2,0);//显示加载中
 	for(i=0;i<5;i++)OLED_ShowCN(i*16,3,i+16,0);//显示中文：网络连接中
 	usart1_init(115200);
 	usart3_init(115200);
@@ -280,6 +320,8 @@ int main(void)
 	LED_Hint(100);
 	esp_32c3_init();
 	LED_Hint(100);
+	esp_32c3_send_cmd("AT+UARTTXDIS=1", "OK", 200);  // 禁用数据转发
+	esp_32c3_send_cmd("AT+CIPMODE=0", "OK", 200);    // 退出透传模式
 	esp_32c3_send_cmd("AT+CWQAP","0K",200);
 	LED_Hint(100);
 	esp_32c3_quit_init();
