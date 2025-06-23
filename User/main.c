@@ -47,7 +47,7 @@ unsigned char temperature=0;
 unsigned char humidity=0;
 unsigned char setTempValue=35;        //温度设置值
 unsigned int  setSoilMoisture=10;
-unsigned int  soilMoisture;           //土壤湿度
+unsigned int  soilMoisture=10;           //土壤湿度
 unsigned char setLightValue=20;       //光照设置值
 
 bool shuaxin  = 0;

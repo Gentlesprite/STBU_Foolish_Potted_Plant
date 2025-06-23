@@ -51,14 +51,14 @@ void TIM1_UP_IRQHandler(void) {
 				if(temperature > temp_threshold)FAN_ON();
 				else if(FAN_Ctrl == 0)FAN_OFF();
 			
-				if(humidity > humidity_threshold)RELAY_ON();
-				else if(MOTOR_Ctrl == 0)RELAY_OFF();
+				if(humidity > humidity_threshold)BUZZER_ON();
+				else if(BEEP_Ctrl == 0)BUZZER_OFF();
 
 				if(light < light_threshold)LEDM_ON(); 
 				else if(LED_Ctrl == 0)LEDM_OFF();
 
-				if(soilMoisture > soil_threshold)BUZZER_ON();
-				else if(BEEP_Ctrl == 0)BUZZER_OFF();
+				if(soilMoisture > soil_threshold)RELAY_ON();
+				else if(MOTOR_Ctrl == 0)RELAY_OFF();
 			
     }
 }

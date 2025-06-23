@@ -1,0 +1,129 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ioDraw.com/3.5.1 Chrome/124.0.6367.49 Electron/30.0.0 Safari/537.36" version="24.7.17">
+  <diagram name="第 1 页" id="T1ah0GZbPNw7v5BFFdLf">
+    <mxGraphModel dx="875" dy="518" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-128" value="" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=none;endFill=0;" parent="1" source="D1M6TC4PQ5VA3ktW9FNT-56" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="305" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-56" value="&lt;b&gt;传感器模块&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="150" width="150" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-57" value="HW-080(土壤湿度传感器)" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-56" vertex="1">
+          <mxGeometry y="26" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-58" value="&lt;span style=&quot;&quot;&gt;JW01(二氧化碳传感器)&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-56" vertex="1">
+          <mxGeometry y="52" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-59" value="&lt;span style=&quot;&quot;&gt;DHT11(温湿度传感器)&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-56" vertex="1">
+          <mxGeometry y="78" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-111" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;endArrow=classic;endFill=1;" parent="1" source="D1M6TC4PQ5VA3ktW9FNT-60" target="D1M6TC4PQ5VA3ktW9FNT-73" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="260" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-60" value="&lt;b&gt;核心控制器&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;" parent="1" vertex="1">
+          <mxGeometry x="400" y="150" width="140" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-61" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-60" vertex="1">
+          <mxGeometry y="26" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-62" value="&lt;span style=&quot;&quot;&gt;STM32F103ZET6&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-60" vertex="1">
+          <mxGeometry y="52" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-63" value="&lt;div style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-60" vertex="1">
+          <mxGeometry y="78" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-129" value="" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=none;endFill=0;" parent="1" source="D1M6TC4PQ5VA3ktW9FNT-64" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="635" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-64" value="&lt;b&gt;显示模块&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="150" width="150" height="104" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-65" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-64" vertex="1">
+          <mxGeometry y="26" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-66" value="&lt;div&gt;&lt;div&gt;SSD1306显示传感器数据&lt;span style=&quot;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-64" vertex="1">
+          <mxGeometry y="52" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-67" value="&lt;div style=&quot;&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-64" vertex="1">
+          <mxGeometry y="78" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-122" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="D1M6TC4PQ5VA3ktW9FNT-60" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="545" y="439.99703703703705" as="sourcePoint" />
+            <mxPoint x="477.1400000000001" y="148.85599999999997" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="750" y="440" />
+              <mxPoint x="750" y="109" />
+              <mxPoint x="470" y="109" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-84" value="&lt;b&gt;APP(服务端)&lt;/b&gt;" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;" parent="1" vertex="1">
+          <mxGeometry x="395" y="390" width="150" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-85" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-84" vertex="1">
+          <mxGeometry y="26" width="150" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-86" value="&lt;span style=&quot;&quot;&gt;TCP服务器&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-84" vertex="1">
+          <mxGeometry y="50" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-87" value="&amp;nbsp;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-84" vertex="1">
+          <mxGeometry y="76" width="150" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-115" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="230" y="284" width="480" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-70" value="通信模块" style="swimlane;startSize=20;" parent="D1M6TC4PQ5VA3ktW9FNT-115" vertex="1">
+          <mxGeometry width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-78" value="ESP32C3(WiFi)" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-70" vertex="1">
+          <mxGeometry x="50" y="32" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-79" value="建立TCP连接(客户端)" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-70" vertex="1">
+          <mxGeometry x="44" y="50" width="140" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-73" value="执行设备" style="swimlane;startSize=20;" parent="D1M6TC4PQ5VA3ktW9FNT-115" vertex="1">
+          <mxGeometry x="240" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-81" value="水泵(灌溉)&lt;div&gt;排气扇(排气)&lt;/div&gt;&lt;div&gt;有源蜂鸣器(报警)&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="D1M6TC4PQ5VA3ktW9FNT-73" vertex="1">
+          <mxGeometry x="50" y="24" width="140" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-117" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="D1M6TC4PQ5VA3ktW9FNT-70" target="D1M6TC4PQ5VA3ktW9FNT-84" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="470" y="400" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="470" y="380" />
+              <mxPoint x="470" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-123" value="收到用户命令" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="595" y="410" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-124" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="D1M6TC4PQ5VA3ktW9FNT-58" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="215" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="D1M6TC4PQ5VA3ktW9FNT-125" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="D1M6TC4PQ5VA3ktW9FNT-62" target="D1M6TC4PQ5VA3ktW9FNT-66" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
