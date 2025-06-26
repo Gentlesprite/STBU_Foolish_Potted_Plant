@@ -42,23 +42,49 @@ void tim1_init(void) {
 }
 
 extern uint8_t FAN_Ctrl;//排气扇控制标志位
-extern uint8_t MOTOR_Ctrl;//窗帘控制标志位
-extern uint8_t LED_Ctrl;//排气扇控制标志位
-extern uint8_t BEEP_Ctrl;//排气扇控制标志位
+extern uint8_t MOTOR_Ctrl;//水泵控制标志位
+extern uint8_t LED_Ctrl;//补光灯控制标志位
+extern uint8_t BEEP_Ctrl;//蜂鸣器控制标志位
 void TIM1_UP_IRQHandler(void) {
     if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET) {
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
-				if(temperature > temp_threshold)FAN_ON();
+				if(temperature > temp_threshold)
+//				{
+//					if(FAN_Ctrl >= 1 )
+//					{
+						FAN_ON();
+//					}
+//				}
 				else if(FAN_Ctrl == 0)FAN_OFF();
 			
-				if(humidity > humidity_threshold)BUZZER_ON();
+				if(humidity > humidity_threshold)
+				{
+					if(BEEP_Ctrl >= 1)
+					{
+						BUZZER_ON();
+					}
+				}
+////				else if(MOTOR_Ctrl == 0)RELAY_OFF();
 				else if(BEEP_Ctrl == 0)BUZZER_OFF();
 
-				if(light < light_threshold)LEDM_ON(); 
-				else if(LED_Ctrl == 0)LEDM_OFF();
+				if(light < light_threshold)
+				{
+//					if(LED_Ctrl >=1)
+//					{
+						LEDM_ON(); 
+//					}
+				}
+				else LEDM_OFF();
 
-				if(soilMoisture > soil_threshold)RELAY_ON();
-				else if(MOTOR_Ctrl == 0)RELAY_OFF();
+				if(soilMoisture < soil_threshold)
+				{
+					if( MOTOR_Ctrl >=1)
+					{
+						RELAY_ON();
+					}
+				}
+			  else if(MOTOR_Ctrl == 0)RELAY_OFF();
+//				else if(BEEP_Ctrl == 0)BUZZER_OFF();
 			
     }
 }

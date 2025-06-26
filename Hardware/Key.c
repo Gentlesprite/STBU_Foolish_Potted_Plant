@@ -29,6 +29,5 @@ uint8_t Key_GetNum(void)
 		Delay_ms(20);
 		KeyNum = 2;
 	}
-	
 	return KeyNum;
 }

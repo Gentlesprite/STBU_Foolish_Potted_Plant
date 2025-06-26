@@ -14,9 +14,6 @@ void LED_Init(void)
 //	GPIO_ResetBits(GPIOF, GPIO_Pin_2);
 }
 
-
-
-
 void LED2_ON(void)
 {
 	GPIO_ResetBits(GPIOE, GPIO_Pin_5);
@@ -75,7 +72,6 @@ void LED_Hint(uint16_t timer)//LEDÃ· æµ∆
 	LED2_OFF();
 	LED2_ON();
 	LED_Hint_Counter =timer;
-	
 }
 void LEDM_ON(){
 	GPIO_SetBits(GPIOB,GPIO_Pin_1);

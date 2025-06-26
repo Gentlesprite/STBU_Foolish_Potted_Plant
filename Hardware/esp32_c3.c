@@ -126,18 +126,18 @@ void esp_32c3_start_connect(void){
 	//让模块连接上路由（用户自己定义）
 //其中TP-LINK_123456为WiFi名，123456为密码，将其替换为你的WiFi
 //while();  在stm32中为等待含义
-	while(esp_32c3_send_cmd("AT+CWJAP=\"Reno\",\"luzhiyu666\"", "WIFI GOT IP",600));
+	while(esp_32c3_send_cmd("AT+CWJAP=\"AppleU\",\"12345678\"", "WIFI GOT IP",600));
 	
 	//=0：单路连接模式     =1：多路连接模式
 	esp_32c3_send_cmd("AT+CIPMUX=0","OK",20);
 	
 	//建立TCP连接  192.168.0.101和8080为TCP Server的ip(手机IP)和端口
-while(esp_32c3_send_cmd("AT+CIPSTART=\"TCP\",\"192.168.0.123\",8086","CONNECT",200));
+while(esp_32c3_send_cmd("AT+CIPSTART=\"TCP\",\"10.200.17.143\",8086","CONNECT",200));
 	
 	//是否开启透传模式  0：表示关闭 1：表示开启透传
 	esp_32c3_send_cmd("AT+CIPMODE=1","OK",200);
 	
-	//透传模式下 开始发送数据的指令 这个指令之后就可以直接发数据了
+	//透传模式下 开始发送数据的指令 这个指令之后s就可以直接发数据了
 	esp_32c3_send_cmd("AT+CIPSEND","OK",50);
 }
 

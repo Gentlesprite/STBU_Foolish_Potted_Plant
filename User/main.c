@@ -20,16 +20,16 @@
 volatile uint8_t Timer2_OLEDRefresh_Counter =0;//定时器2计时变量 3ms
 volatile uint8_t Timer2_Sensor_Counter = 0;//传感器数据采集计时变量 200ms
 volatile uint8_t FAN_Ctrl =0;//风扇控制标志位
-volatile uint8_t MOTOR_Ctrl =0;//窗帘控制标志位
-volatile uint8_t BEEP_Ctrl =0;//蜂鸣器控制标志位
+volatile uint8_t MOTOR_Ctrl =1;//电机控制标志位
+volatile uint8_t BEEP_Ctrl =1;//蜂鸣器控制标志位
 volatile uint8_t Wifi_Rx_Counter =0;//数据接收轮询任务
-volatile uint8_t LED_Ctrl =0;//数据接收轮询任务
+volatile uint8_t LED_Ctrl =1;//数据接收轮询任务
 
 //设定的默认报警阈值
-u8 humidity_threshold = 70;
-u8 temp_threshold = 30;//温度默认阈值
-int soil_threshold = 30;//土壤湿度默认阈值
-uint16_t light_threshold = 100; //灯光开启默认阈值
+u8 humidity_threshold = 80;//空气湿度默认阈值
+u8 temp_threshold = 29;//温度默认阈值
+int soil_threshold = 30;//土壤 湿度默认阈值
+uint16_t light_threshold = 110; //灯光开启默认阈值
 u16 light; //光照强度
 //u16 led0pwmval=40; led pwm时开启
 extern u8 USART3_RX_FLAG;//wifi接收标志位
@@ -56,12 +56,13 @@ bool sendFlag = 1;
 
 const char* cmd = "\t\r\n↓↓↓支持的命令↓↓↓\r\n"
                   "[temp value] - 设置温度的报警阈值。\r\n"
-                  "[hum value] - 设置湿度的报警阈值。\r\n"
+//                  "[hum value] - 设置湿度的报警阈值。\r\n"
                   "[soil value] - 设置土壤湿度的报警阈值。\r\n"
                   "[light value] - 设置灯光开启阈值。\r\n"
                   "[data] - 获取当前环境的信息。\r\n"
                   "[FAN ON/OFF] - 排气扇启停。\r\n"
-                  "[MOTOR ON/OFF] - 窗帘启停。";
+									"[BEEP ON/OFF] - 报警启停。\r\n"
+                  "[MOTOR ON/OFF] - 水泵启停。";
 
 void InitDisplay(void)   //初始化显示
 {
@@ -194,53 +195,71 @@ void ParseCommand(char* cmd) {
 		
 		else if (strcmp(token, "FANON") == 0){
 			FAN_ON();
-			FAN_Ctrl =1;
+
 			sprintf(sendBuffer, "排气扇已开启");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 		
 		else if (strcmp(token, "FANOFF") == 0){
 			FAN_OFF();
-			FAN_Ctrl =0;
+
 			sprintf(sendBuffer, "排气扇已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 
 		else if (strcmp(token, "MOTORON") == 0){
 			RELAY_ON();
-			MOTOR_Ctrl =1;
-			sprintf(sendBuffer, "窗帘已开启");
+			if(MOTOR_Ctrl <1)
+			{
+				MOTOR_Ctrl +=1;
+			}
+			sprintf(sendBuffer, "水泵已开启");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 		
 		else if (strcmp(token, "MOTOROFF") == 0){
 			RELAY_OFF();
-			MOTOR_Ctrl =0;
-			sprintf(sendBuffer, "窗帘已关闭");
+			if(MOTOR_Ctrl >=1)
+			{
+				MOTOR_Ctrl -=1;
+			}
+			sprintf(sendBuffer, "水泵已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 		
 		else if (strcmp(token, "LEDON") == 0){
 			LEDM_ON();
-			LED_Ctrl =1;
+//			if(LED_Ctrl <1)
+//			{
+//				LED_Ctrl +=1;
+//			}
 			sprintf(sendBuffer, "灯光已打开");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 		else if (strcmp(token, "LEDOFF") == 0){
 			LEDM_OFF();
-			LED_Ctrl =0;
+//			if(LED_Ctrl >=1)
+//			{
+//				LED_Ctrl -=1;
+//			}
 			sprintf(sendBuffer, "灯光已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 		else if (strcmp(token, "BEEPON") == 0){
 			BUZZER_ON();
-			BEEP_Ctrl =1;
+			if(BEEP_Ctrl <1)
+			{
+				BEEP_Ctrl +=1;
+			}
 			sprintf(sendBuffer, "报警已开启");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
 		else if (strcmp(token, "BEEPOFF") == 0){
 			BUZZER_OFF();
-			BEEP_Ctrl =0;
+			if(BEEP_Ctrl >=1)
+			{
+				BEEP_Ctrl -=1;
+			}
 			sprintf(sendBuffer, "报警已关闭");
 			esp_32c3_send_data((u8 *)sendBuffer, 50);
 		}
